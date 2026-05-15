@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">Weekly Planner</h1>
+                <div class="header-controls">
+                    <button class="btn-icon" id="todayBtn" title="Go to Today">
+                        <span>📅</span>
+                    </button>
+                    <button class="btn-icon" id="clearBtn" title="Clear All">
+                        <span>🗑️</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="week-navigation">
+            <button class="nav-btn prev-week" id="prevWeek">← Previous</button>
+            <span class="week-label" id="weekLabel"></span>
+            <button class="nav-btn next-week" id="nextWeek">Next →</button>
+        </div>
+
+        <main class="schedule-container">
+            <div class="schedule-wrapper">
+                <div class="time-column">
+                    <div class="time-header">Time</div>
+                    <div class="time-slots" id="timeSlots"></div>
+                </div>
+
+                <div class="days-container" id="daysContainer"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quick Add Modal -->
+    <div class="modal" id="quickAddModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Event</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="eventTitle" placeholder="Event name" class="input-field">
+                <textarea id="eventDescription" placeholder="Description (optional)" class="input-field"></textarea>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <select id="eventStartTime" class="input-field"></select>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <select id="eventDuration" class="input-field">
+                        <option value="1">30 min</option>
+                        <option value="2" selected>1 hour</option>
+                        <option value="3">1.5 hours</option>
+                        <option value="4">2 hours</option>
+                        <option value="6">3 hours</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-picker">
+                        <input type="radio" name="color" value="#FF6B6B" id="color1">
+                        <label for="color1" class="color-option" style="background-color: #FF6B6B;"></label>
+                        <input type="radio" name="color" value="#4ECDC4" id="color2" checked>
+                        <label for="color2" class="color-option" style="background-color: #4ECDC4;"></label>
+                        <input type="radio" name="color" value="#45B7D1" id="color3">
+                        <label for="color3" class="color-option" style="background-color: #45B7D1;"></label>
+                        <input type="radio" name="color" value="#FFA07A" id="color4">
+                        <label for="color4" class="color-option" style="background-color: #FFA07A;"></label>
+                        <input type="radio" name="color" value="#98D8C8" id="color5">
+                        <label for="color5" class="color-option" style="background-color: #98D8C8;"></label>
+                        <input type="radio" name="color" value="#F7DC6F" id="color6">
+                        <label for="color6" class="color-option" style="background-color: #F7DC6F;"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn-primary" id="addEventBtn">Add Event</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Detail Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2 id="eventTitle2"></h2>
+                <button class="modal-close" id="closeEventModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="eventDesc"></p>
+                <p class="event-time"><strong>Time:</strong> <span id="eventTime"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="editEventBtn">Edit</button>
+                <button class="btn-danger" id="deleteEventBtn">Delete</button>
+                <button class="btn-primary" id="closeEventBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Event</h2>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editEventTitle" placeholder="Event name" class="input-field">
+                <textarea id="editEventDescription" placeholder="Description (optional)" class="input-field"></textarea>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <select id="editEventStartTime" class="input-field"></select>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <select id="editEventDuration" class="input-field">
+                        <option value="1">30 min</option>
+                        <option value="2">1 hour</option>
+                        <option value="3">1.5 hours</option>
+                        <option value="4">2 hours</option>
+                        <option value="6">3 hours</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-picker">
+                        <input type="radio" name="editColor" value="#FF6B6B" id="editColor1">
+                        <label for="editColor1" class="color-option" style="background-color: #FF6B6B;"></label>
+                        <input type="radio" name="editColor" value="#4ECDC4" id="editColor2">
+                        <label for="editColor2" class="color-option" style="background-color: #4ECDC4;"></label>
+                        <input type="radio" name="editColor" value="#45B7D1" id="editColor3">
+                        <label for="editColor3" class="color-option" style="background-color: #45B7D1;"></label>
+                        <input type="radio" name="editColor" value="#FFA07A" id="editColor4">
+                        <label for="editColor4" class="color-option" style="background-color: #FFA07A;"></label>
+                        <input type="radio" name="editColor" value="#98D8C8" id="editColor5">
+                        <label for="editColor5" class="color-option" style="background-color: #98D8C8;"></label>
+                        <input type="radio" name="editColor" value="#F7DC6F" id="editColor6">
+                        <label for="editColor6" class="color-option" style="background-color: #F7DC6F;"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
+                <button class="btn-primary" id="updateEventBtn">Update Event</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
